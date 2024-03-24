@@ -1,0 +1,88 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> Welcome to Our Banking Application! </mat-card-title>
+    <mat-card-subtitle>Please Register</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-error *ngIf="error">{{ error.message }}</mat-error>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          placeholder="First Name"
+          type="text"
+          formControlName="firstName"
+          required
+        />
+        <mat-error *ngIf="f.firstName.errors && f.firstName.errors.required"
+          >Please enter value</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          placeholder="Last Name"
+          type="text"
+          formControlName="lastName"
+          required
+        />
+        <mat-error *ngIf="f.lastName.errors && f.lastName.errors.required"
+          >Please enter value</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input
+          matInput
+          placeholder="Username"
+          type="text"
+          formControlName="username"
+          required
+        />
+        <mat-error *ngIf="f.username.errors && f.username.errors.required"
+          >Please enter value</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          formControlName="password"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (f.password.errors && f.password.errors.required) ||
+            f.password.errors?.minlength
+          "
+          >Please enter value
+          {{
+            f.password.errors?.minlength ? "Atleast 6 characters" : ""
+          }}</mat-error
+        >
+      </mat-form-field>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          [disabled]="loading"
+          class="btn btn-primary"
+        >
+          Register
+        </button>
+        <button
+          mat-button
+          color="accent"
+          routerLink="../login"
+          class="btn btn-link"
+        >
+          Cancel
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>

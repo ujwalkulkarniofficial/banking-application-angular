@@ -1,0 +1,128 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Welcome to our Banking Application!</mat-card-title>
+    <mat-card-subtitle
+      >Username: {{ accountDetails?.user?.username }}</mat-card-subtitle
+    >
+    <mat-card-subtitle>Account Information</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content
+    >Name: {{ accountDetails?.user?.firstName }}
+    {{ accountDetails?.user?.lastName }}
+    <br />
+    Account Creation Date:
+    {{ accountDetails?.accountCreationTimeStamp | date }}
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Perform Transactions</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-chip-listbox>
+      <mat-chip-option
+        color="accent"
+        [selected]="isDeposit"
+        (selectionChange)="isDeposit = !isDeposit; isWithdraw = false"
+        >Deposit</mat-chip-option
+      >
+      <mat-chip-option
+        color="warn"
+        [selected]="isWithdraw"
+        (selectionChange)="isWithdraw = !isWithdraw; isDeposit = false"
+        >Withdraw</mat-chip-option
+      >
+    </mat-chip-listbox>
+    <mat-form-field appearance="fill" floatLabel="always">
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        class="example-right-align"
+        placeholder="0"
+        [(ngModel)]="amount"
+      />
+      <span matTextPrefix>$&nbsp;</span>
+      <span matTextSuffix>.00</span>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Transaction Remarks</mat-label>
+      <input matInput placeholder="For groceries.." [(ngModel)]="remarks" />
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-button
+      color="primary"
+      [disabled]="amount < 1 && (isDeposit == false || isWithdraw == false)"
+      (click)="transact($event)"
+    >
+      Submit
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Account Summay</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <!-- #docregion basic-panel -->
+      <!-- #docregion hide-toggle -->
+      <mat-expansion-panel hideToggle>
+        <!-- #enddocregion hide-toggle -->
+        <mat-expansion-panel-header>
+          <mat-panel-title> Account Balance </mat-panel-title>
+          <mat-panel-description>
+            {{ accountDetails?.balance | currency }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>
+          Displaying your account Balance As Of:
+          {{ now | date : "dd MMM yy hh:mm:ss a" }}
+        </p>
+      </mat-expansion-panel>
+      <!-- #enddocregion basic-panel -->
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Transaction Details </mat-panel-title>
+          <mat-panel-description>
+            {{ panelOpenState ? "Hide" : "Display" }} Transaction Details
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table mat-table [dataSource]="tableDataSource">
+          <ng-container matColumnDef="transactionTime">
+            <th mat-header-cell *matHeaderCellDef>Transaction Time</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.transactionTime | date : "dd-MM-yyyy hh:mm:ss a" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="transactionType">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.transactionType }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef>Remarks</th>
+            <td mat-cell *matCellDef="let element">{{ element.remarks }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
