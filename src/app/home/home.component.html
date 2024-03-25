@@ -95,7 +95,7 @@
             {{ panelOpenState ? "Hide" : "Display" }} Transaction Details
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <table mat-table [dataSource]="tableDataSource">
+        <table style="overflow-x: auto;" mat-table [dataSource]="tableDataSource">
           <ng-container matColumnDef="transactionTime">
             <th mat-header-cell *matHeaderCellDef>Transaction Time</th>
             <td mat-cell *matCellDef="let element">
