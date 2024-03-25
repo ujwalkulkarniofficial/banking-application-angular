@@ -19,6 +19,7 @@
     <mat-card-title>Perform Transactions</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <mat-error *ngIf="transactError">{{ transactError.message }}</mat-error>
     <mat-chip-listbox>
       <mat-chip-option
         color="accent"

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { AccountDetailsService } from '../services/account-details.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, take } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { TransactionService } from '../services/transaction.service';
@@ -26,11 +26,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
     'transactionTime',
     'transactionType',
     'remarks',
-    'amount'
+    'amount',
   ];
   tableDataSource: any;
-  get now() : string { return Date(); }
+  
+  get now(): string {
+    return Date();
+  }
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
+  transactError: Error | undefined;
   constructor(
     private accountDetailsService: AccountDetailsService,
     private transactionService: TransactionService
@@ -47,6 +52,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   setTransactionsDetails() {
     this.transactionService
       .getTransactionsByAccId(this.accountDetails.accountId)
+      .pipe(take(1))
       // @ts-ignore
       .subscribe((res: any[]): void => {
         this.tableDataSource = new MatTableDataSource<TransactionRecord>(
@@ -55,7 +61,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               transactionTime: rec.transactionTimestamp,
               transactionType: rec.transactionType,
               remarks: rec.remarks,
-              amount: rec.amount
+              amount: rec.amount,
             } as TransactionRecord;
             return record;
           })
@@ -66,10 +72,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   setAccountDetails() {
     this.accountDetailsService
       .getAccountDetailsForLoggedInUser()
+      .pipe(take(1))
       .subscribe((res: any) => {
         this.accountDetails = res;
         this.setTransactionsDetails();
       });
+  }
+
+  initState(): void {
+    this.amount = 0;
+    this.remarks = '';
   }
 
   transact(event: any) {
@@ -80,9 +92,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.amount,
           this.remarks
         )
+        .pipe(take(1))
         .subscribe((res) => {
           this.setAccountDetails();
-        });
+          this.initState();
+        }, catchError(err => this.transactError = err));
     }
     if (this.isWithdraw) {
       this.transactionService
@@ -91,8 +105,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.amount,
           this.remarks
         )
+        .pipe(take(1))
         .subscribe((res) => {
           this.setAccountDetails();
+          this.initState();
         });
     }
   }

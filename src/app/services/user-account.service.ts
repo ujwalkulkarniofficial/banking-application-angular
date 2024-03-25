@@ -24,6 +24,7 @@ export class UserAccountService {
   }
 
   register(user: User) {
+    user.roles = "ROLE_USER";
     return this.http.post(`${environment.apiUrl}/auth/register`, user);
   }
 
