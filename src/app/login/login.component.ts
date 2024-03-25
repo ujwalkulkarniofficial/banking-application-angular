@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserAccountService } from '../services/user-account.service';
+import { UserAccountService } from '../services/user-account/user-account.service';
 import { first } from 'rxjs';
 
 @Component({
@@ -35,8 +35,7 @@ export class LoginComponent implements OnInit {
   });
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.form.controls; }
+  get formControls() { return this.form.controls; }
 
   onSubmit() {
       this.submitted = true;
@@ -50,7 +49,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.accountService.login(this.f.username.value, this.f.password.value)
+      this.accountService.login(this.formControls.username.value, this.formControls.password.value)
           .pipe(first())
           .subscribe({
               next: () => {

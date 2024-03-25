@@ -15,7 +15,7 @@
           formControlName="firstName"
           required
         />
-        <mat-error *ngIf="f.firstName.errors && f.firstName.errors.required"
+        <mat-error *ngIf="formControls.firstName.errors && formControls.firstName.errors.required"
           >Please enter value</mat-error
         >
       </mat-form-field>
@@ -28,7 +28,7 @@
           formControlName="lastName"
           required
         />
-        <mat-error *ngIf="f.lastName.errors && f.lastName.errors.required"
+        <mat-error *ngIf="formControls.lastName.errors && formControls.lastName.errors.required"
           >Please enter value</mat-error
         >
       </mat-form-field>
@@ -41,7 +41,7 @@
           formControlName="username"
           required
         />
-        <mat-error *ngIf="f.username.errors && f.username.errors.required"
+        <mat-error *ngIf="formControls.username.errors && formControls.username.errors.required"
           >Please enter value</mat-error
         >
       </mat-form-field>
@@ -56,12 +56,12 @@
         />
         <mat-error
           *ngIf="
-            (f.password.errors && f.password.errors.required) ||
-            f.password.errors?.minlength
+            (formControls.password.errors && formControls.password.errors.required) ||
+            formControls.password.errors?.minlength
           "
           >Please enter value
           {{
-            f.password.errors?.minlength ? "Atleast 6 characters" : ""
+            formControls.password.errors?.minlength ? "Atleast 6 characters" : ""
           }}</mat-error
         >
       </mat-form-field>

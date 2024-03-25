@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { AccountDetailsService } from '../services/account-details.service';
+import { AccountDetailsService } from '../services/account-details/account-details.service';
 import { Observable, catchError, take } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import { TransactionService } from '../services/transaction.service';
+import { TransactionService } from '../services/transactions/transaction.service';
 import { TransactionRecord } from './transaction-record.interface';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';

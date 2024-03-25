@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
-import { AccountDetailsService } from '../services/account-details.service';
-import { UserAccountService } from '../services/user-account.service';
+import { AccountDetailsService } from '../services/account-details/account-details.service';
+import { UserAccountService } from '../services/user-account/user-account.service';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +37,7 @@ export class RegisterComponent {
     });
   }
 
-  get f() {
+  get formControls() {
     return this.form.controls;
   }
 

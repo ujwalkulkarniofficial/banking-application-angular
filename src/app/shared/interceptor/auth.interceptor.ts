@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserAccountService } from 'src/app/services/user-account.service';
+import { UserAccountService } from 'src/app/services/user-account/user-account.service';
 import { environment } from 'src/app/environments/environments';
 
 
